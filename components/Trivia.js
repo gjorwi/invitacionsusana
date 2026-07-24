@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import SectionReveal from "./SectionReveal";
+import { API } from "../lib/config";
 
 const QUESTIONS = [
   {
@@ -70,16 +71,25 @@ const QUESTIONS = [
   },
 ];
 
-const API = "http://localhost:4000/api";
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const QUESTIONS_SHUFFLED = QUESTIONS.map((q) => ({ ...q, options: shuffle(q.options) }));
 
 export default function Trivia() {
+  const [questions, setQuestions] = useState(QUESTIONS_SHUFFLED);
   const [started, setStarted] = useState(false);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const [selected, setSelected] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [name, setName] = useState("");
   const [code, setCode] = useState("");
   const [saveStatus, setSaveStatus] = useState("idle");
   const [saveMessage, setSaveMessage] = useState("");
@@ -90,7 +100,7 @@ export default function Trivia() {
       if (showFeedback) return;
       setSelected(index);
       setShowFeedback(true);
-      if (QUESTIONS[current].options[index].correct) {
+      if (questions[current].options[index].correct) {
         setScore((s) => s + 1);
       }
     },
@@ -98,7 +108,7 @@ export default function Trivia() {
   );
 
   const handleNext = useCallback(() => {
-    if (current < QUESTIONS.length - 1) {
+    if (current < questions.length - 1) {
       setCurrent((c) => c + 1);
       setSelected(null);
       setShowFeedback(false);
@@ -114,21 +124,21 @@ export default function Trivia() {
     setFinished(false);
     setSelected(null);
     setShowFeedback(false);
-    setName("");
     setCode("");
     setSaveStatus("idle");
     setSaveMessage("");
     setSavedCode(null);
+    setQuestions(QUESTIONS.map((q) => ({ ...q, options: shuffle(q.options) })));
   }, []);
 
   const handleSave = async () => {
-    if (!name.trim() || !code.trim()) return;
+    if (!code.trim()) return;
     setSaveStatus("loading");
     try {
       const res = await fetch(`${API}/trivia/save`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.trim(), invitationCode: code.trim(), score, total: QUESTIONS.length }),
+        body: JSON.stringify({ invitationCode: code.trim(), score, total: questions.length }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -170,7 +180,7 @@ export default function Trivia() {
   }
 
   if (finished) {
-    const total = QUESTIONS.length;
+    const total = questions.length;
     const percent = Math.round((score / total) * 100);
     let emoji, message;
     if (percent === 100) {
@@ -210,15 +220,9 @@ export default function Trivia() {
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
               />
-              <input
-                className="w-full bg-white/50 border border-white/50 rounded-lg py-3 px-4 text-center text-primary font-semibold outline-none focus:ring-2 focus:ring-primary/20 placeholder-primary/50"
-                placeholder="Tu nombre"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
               <button
                 onClick={handleSave}
-                disabled={saveStatus === "loading" || !name.trim() || !code.trim()}
+                disabled={saveStatus === "loading" || !code.trim()}
                 className="w-full py-3 btn-gradient text-white rounded-lg font-bold text-sm shadow-lg disabled:opacity-60"
               >
                 {saveStatus === "loading" ? "Guardando..." : "Guardar puntaje"}
@@ -242,7 +246,7 @@ export default function Trivia() {
     );
   }
 
-  const q = QUESTIONS[current];
+  const q = questions[current];
 
   return (
     <SectionReveal id="trivia">
@@ -252,14 +256,14 @@ export default function Trivia() {
             Trivia 👑
           </h3>
           <span className="text-xs font-bold text-pink-600/70 bg-pink-100/40 px-3 py-1 rounded-full border border-pink-200/50">
-            {current + 1} / {QUESTIONS.length} ✨
+            {current + 1} / {questions.length} ✨
           </span>
         </div>
 
         <div className="w-full bg-white/30 rounded-full h-2 overflow-hidden border border-pink-200/40">
           <div
             className="h-full bg-gradient-to-r from-pink-400 to-purple-400 rounded-full transition-all duration-500"
-            style={{ width: `${((current + 1) / QUESTIONS.length) * 100}%` }}
+            style={{ width: `${((current + 1) / questions.length) * 100}%` }}
           />
         </div>
 
@@ -322,7 +326,7 @@ export default function Trivia() {
               onClick={handleNext}
               className="btn-gradient text-white rounded-lg font-bold text-sm px-8 py-3 shadow-lg"
             >
-              {current < QUESTIONS.length - 1 ? "Siguiente pregunta" : "Ver resultados"}
+              {current < questions.length - 1 ? "Siguiente pregunta" : "Ver resultados"}
             </button>
           </div>
         )}

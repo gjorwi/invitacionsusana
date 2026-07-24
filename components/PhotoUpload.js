@@ -2,12 +2,10 @@
 
 import { useState, useRef } from "react";
 import SectionReveal from "./SectionReveal";
-
-const API = "http://localhost:4000/api";
+import { API } from "../lib/config";
 
 export default function PhotoUpload() {
   const [step, setStep] = useState("verify");
-  const [guestName, setGuestName] = useState("");
   const [invitationCode, setInvitationCode] = useState("");
   const [verifyError, setVerifyError] = useState("");
   const [verifyLoading, setVerifyLoading] = useState(false);
@@ -19,14 +17,14 @@ export default function PhotoUpload() {
   const fileRef = useRef(null);
 
   const handleVerify = async () => {
-    if (!guestName.trim() || !invitationCode.trim()) return;
+    if (!invitationCode.trim()) return;
     setVerifyLoading(true);
     setVerifyError("");
     try {
       const res = await fetch(`${API}/gallery/verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: guestName.trim(), invitationCode: invitationCode.trim() }),
+        body: JSON.stringify({ invitationCode: invitationCode.trim() }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -54,9 +52,7 @@ export default function PhotoUpload() {
     setMessage("");
     const form = new FormData();
     form.append("image", file);
-    form.append("guestName", guestName.trim());
     form.append("invitationCode", invitationCode.trim());
-    form.append("label", `Subida por ${guestName.trim()}`);
     try {
       const res = await fetch(`${API}/gallery/upload`, { method: "POST", body: form });
       const data = await res.json();
@@ -98,15 +94,9 @@ export default function PhotoUpload() {
               value={invitationCode}
               onChange={(e) => setInvitationCode(e.target.value)}
             />
-            <input
-              className="w-full bg-white/50 border border-white/50 rounded-lg py-3 px-4 text-center text-primary font-semibold outline-none focus:ring-2 focus:ring-primary/20 placeholder-primary/50"
-              placeholder="Tu nombre"
-              value={guestName}
-              onChange={(e) => setGuestName(e.target.value)}
-            />
             <button
               onClick={handleVerify}
-              disabled={verifyLoading || !guestName.trim() || !invitationCode.trim()}
+              disabled={verifyLoading || !invitationCode.trim()}
               className="w-full py-3 btn-gradient text-white rounded-lg font-bold text-sm shadow-lg disabled:opacity-60"
             >
               {verifyLoading ? "Verificando..." : "Verificar"}
@@ -120,9 +110,6 @@ export default function PhotoUpload() {
         {step === "upload" && (
           <>
             <div className="bg-gradient-to-r from-pink-100/40 to-purple-100/40 rounded-lg p-3 text-center border border-pink-200/40 space-y-1">
-              <p className="text-xs text-primary/70 font-medium">
-                Bienvenida, <strong className="text-primary">{guestName}</strong>
-              </p>
               <p className="text-sm font-bold text-pink-600">
                 Fotos subidas: {uploaded} / 4
               </p>

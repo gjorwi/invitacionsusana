@@ -2,11 +2,19 @@
 
 import { useState, useSyncExternalStore } from "react";
 import SectionReveal from "./SectionReveal";
+import { API } from "../lib/config";
 
 function useLocalStorage(key) {
   return useSyncExternalStore(
     () => () => {},
-    () => localStorage.getItem(key) || null,
+    () => {
+      const val = localStorage.getItem(key);
+      if (!val || val === "undefined") {
+        localStorage.removeItem(key);
+        return null;
+      }
+      return val;
+    },
     () => null,
   );
 }
@@ -30,7 +38,7 @@ export default function RSVP() {
     setStatus("loading");
 
     try {
-      const res = await fetch("http://localhost:4000/api/rsvp", {
+      const res = await fetch(`${API}/rsvp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -39,6 +47,7 @@ export default function RSVP() {
       if (!res.ok) throw new Error("Error al guardar");
 
       const data = await res.json();
+      if (!data.invitationCode) throw new Error("Error al guardar");
       localStorage.setItem("invitationCode", data.invitationCode);
       setStatus("success");
       setMessage("¡Gracias por confirmar! Te esperamos 🎉");

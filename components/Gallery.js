@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from "react";
 import SectionReveal from "./SectionReveal";
+import { API } from "../lib/config";
 
 export default function Gallery() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/gallery?approved=true")
+    fetch(`${API}/gallery?approved=true`)
       .then((r) => r.json())
       .then((data) => {
         if (Array.isArray(data)) setImages(data);
