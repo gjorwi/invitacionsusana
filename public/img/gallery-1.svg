@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fce4f0"/>
+      <stop offset="100%" style="stop-color:#fcf8fe"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="12" fill="url(#bg1)"/>
+  <!-- Candle -->
+  <rect x="180" y="180" width="40" height="100" rx="6" fill="#ffb7e2" opacity="0.7"/>
+  <rect x="185" y="175" width="30" height="10" rx="4" fill="#d1b3ff"/>
+  <!-- Flame -->
+  <path d="M200 175 Q190 160 200 145 Q210 160 200 175Z" fill="#ffb7e2" opacity="0.9"/>
+  <path d="M200 170 Q195 162 200 152 Q205 162 200 170Z" fill="#fff5e0"/>
+  <!-- Relaxing curves -->
+  <path d="M80 320 Q200 280 320 320" stroke="#d1b3ff" stroke-width="3" fill="none" opacity="0.5"/>
+  <path d="M60 340 Q200 300 340 340" stroke="#ffb7e2" stroke-width="2" fill="none" opacity="0.4"/>
+  <!-- Dots -->
+  <circle cx="100" cy="100" r="4" fill="#ffb7e2" opacity="0.4"/>
+  <circle cx="300" cy="90" r="3" fill="#d1b3ff" opacity="0.4"/>
+  <circle cx="150" cy="75" r="2" fill="#854b71" opacity="0.3"/>
+  <circle cx="250" cy="120" r="3" fill="#ffb7e2" opacity="0.3"/>
+  <!-- Small flower -->
+  <g transform="translate(100, 150)">
+    <circle cx="0" cy="-6" r="5" fill="#d1b3ff" opacity="0.6"/>
+    <circle cx="6" cy="-2" r="5" fill="#d1b3ff" opacity="0.6"/>
+    <circle cx="4" cy="5" r="5" fill="#d1b3ff" opacity="0.6"/>
+    <circle cx="-4" cy="5" r="5" fill="#d1b3ff" opacity="0.6"/>
+    <circle cx="-6" cy="-2" r="5" fill="#d1b3ff" opacity="0.6"/>
+    <circle cx="0" cy="0" r="3" fill="#854b71"/>
+  </g>
+  <!-- Steam wisps -->
+  <path d="M190 165 Q180 140 190 120" stroke="#d1b3ff" stroke-width="2" fill="none" opacity="0.3"/>
+  <path d="M205 160 Q195 135 205 115" stroke="#d1b3ff" stroke-width="1.5" fill="none" opacity="0.25"/>
+  <path d="M195 168 Q185 145 195 125" stroke="#d1b3ff" stroke-width="1.5" fill="none" opacity="0.2"/>
+</svg>

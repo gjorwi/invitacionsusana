@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fcf8fe"/>
+      <stop offset="100%" style="stop-color:#f0e6ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="12" fill="url(#bg2)"/>
+  <!-- Hand -->
+  <path d="M150 280 Q150 200 180 160 Q185 155 190 160 L200 180 Q205 185 210 180 L220 160 Q225 155 230 160 Q260 200 260 280" fill="none" stroke="#854b71" stroke-width="8" stroke-linecap="round" opacity="0.5"/>
+  <!-- Nail polish colors on fingers -->
+  <circle cx="165" cy="155" r="10" fill="#ffb7e2"/>
+  <circle cx="195" cy="145" r="10" fill="#d1b3ff"/>
+  <circle cx="220" cy="155" r="10" fill="#854b71"/>
+  <!-- Polish bottle -->
+  <rect x="280" y="220" width="40" height="60" rx="8" fill="#ffb7e2" opacity="0.7"/>
+  <rect x="285" y="210" width="30" height="15" rx="4" fill="#d1b3ff"/>
+  <rect x="295" y="195" width="10" height="18" rx="2" fill="#854b71" opacity="0.6"/>
+  <!-- Sparkles -->
+  <text x="140" y="120" font-size="16" fill="#ffb7e2">✦</text>
+  <text x="240" y="130" font-size="12" fill="#d1b3ff">✦</text>
+  <text x="310" y="180" font-size="14" fill="#854b71" opacity="0.4">✦</text>
+  <circle cx="160" cy="190" r="2" fill="#ffb7e2" opacity="0.6"/>
+  <circle cx="250" cy="200" r="2.5" fill="#d1b3ff" opacity="0.5"/>
+  <circle cx="300" cy="310" r="2" fill="#854b71" opacity="0.4"/>
+  <!-- Dots decoration -->
+  <circle cx="120" cy="300" r="3" fill="#ffb7e2" opacity="0.3"/>
+  <circle cx="130" cy="310" r="3" fill="#ffb7e2" opacity="0.3"/>
+  <circle cx="125" cy="320" r="3" fill="#ffb7e2" opacity="0.3"/>
+</svg>
