@@ -70,6 +70,15 @@ export default function RSVP() {
           </p>
         </div>
 
+        <div className="bg-amber-50 border border-amber-200/60 rounded-xl p-3 text-center space-y-1">
+          <p className="text-[11px] font-bold text-amber-800">
+            Papás, disfruten de unas horas libres... nosotras nos encargamos de ellas 🎀
+          </p>
+          <p className="text-[10px] font-medium text-amber-700/80">
+            Vestir ropa cómoda ✨
+          </p>
+        </div>
+
         {invitationCode && (
           <div className="bg-gradient-to-r from-pink-100/60 to-purple-100/60 rounded-xl p-4 text-center border border-pink-200/50 space-y-1">
             <p className="text-[10px] font-bold uppercase tracking-widest text-pink-600/70">
