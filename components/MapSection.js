@@ -35,7 +35,7 @@ export default function MapSection() {
         <div className="flex items-center gap-3 px-2">
           <span className="material-symbols-outlined text-primary">location_on</span>
           <div className="flex-1">
-            <p className="font-bold text-primary/90 text-sm">Avenida Maracaibo, Local Gaby's</p>
+            <p className="font-bold text-primary/90 text-sm">Avenida Maracaibo, Local Gaby's nails</p>
           </div>
         </div>
 

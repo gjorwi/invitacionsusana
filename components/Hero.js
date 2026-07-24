@@ -74,7 +74,7 @@ export default function Hero() {
           </div>
           <div>
             <p className="text-[10px] tracking-[0.1em] font-bold text-purple-600/70 uppercase">LUGAR</p>
-            <p className="font-bold text-purple-700/90">Avenida Maracaibo, Local Gaby's</p>
+            <p className="font-bold text-purple-700/90">Avenida Maracaibo, Local Gaby's nails</p>
           </div>
         </div>
       </div>
