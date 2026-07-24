@@ -65,7 +65,7 @@ export default function Hero() {
           </div>
           <div>
             <p className="text-[10px] tracking-[0.1em] font-bold text-pink-600/70 uppercase">FECHA Y HORA</p>
-            <p className="font-bold text-pink-700/90">26 de Julio, 4:00 PM</p>
+            <p className="font-bold text-pink-700/90">26 de Julio, 2:00 - 6:00 PM</p>
           </div>
         </div>
         <div className="flex items-center gap-4">
