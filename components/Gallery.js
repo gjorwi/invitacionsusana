@@ -8,7 +8,7 @@ export default function Gallery() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/gallery")
+    fetch("http://localhost:4000/api/gallery?approved=true")
       .then((r) => r.json())
       .then((data) => {
         if (Array.isArray(data)) setImages(data);

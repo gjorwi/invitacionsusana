@@ -70,6 +70,8 @@ const QUESTIONS = [
   },
 ];
 
+const API = "http://localhost:4000/api";
+
 export default function Trivia() {
   const [started, setStarted] = useState(false);
   const [current, setCurrent] = useState(0);
@@ -77,6 +79,11 @@ export default function Trivia() {
   const [finished, setFinished] = useState(false);
   const [selected, setSelected] = useState(null);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [name, setName] = useState("");
+  const [code, setCode] = useState("");
+  const [saveStatus, setSaveStatus] = useState("idle");
+  const [saveMessage, setSaveMessage] = useState("");
+  const [savedCode, setSavedCode] = useState(null);
 
   const handleAnswer = useCallback(
     (index) => {
@@ -107,7 +114,32 @@ export default function Trivia() {
     setFinished(false);
     setSelected(null);
     setShowFeedback(false);
+    setName("");
+    setCode("");
+    setSaveStatus("idle");
+    setSaveMessage("");
+    setSavedCode(null);
   }, []);
+
+  const handleSave = async () => {
+    if (!name.trim() || !code.trim()) return;
+    setSaveStatus("loading");
+    try {
+      const res = await fetch(`${API}/trivia/save`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name.trim(), invitationCode: code.trim(), score, total: QUESTIONS.length }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setSavedCode(code.trim());
+      setSaveStatus("success");
+      setSaveMessage("¡Puntaje guardado! 🎉");
+    } catch (err) {
+      setSaveStatus("error");
+      setSaveMessage(err.message);
+    }
+  };
 
   if (!started) {
     return (
@@ -167,9 +199,38 @@ export default function Trivia() {
             <p className="text-xs text-pink-600/70 mt-1">preguntas correctas ✨</p>
           </div>
           <p className="text-sm font-semibold text-secondary">{message}</p>
-          <p className="text-xs text-pink-600/60 italic">
-            * El premio se entregue durante la fiesta. ¡No faltes! 👑✨
-          </p>
+
+          {savedCode ? (
+            <p className="text-sm font-bold text-green-700">¡Puntaje guardado! 🎉</p>
+          ) : (
+            <div className="space-y-3">
+              <input
+                className="w-full bg-white/50 border border-white/50 rounded-lg py-3 px-4 text-center text-lg font-bold tracking-[0.15em] text-primary outline-none focus:ring-2 focus:ring-primary/20 placeholder-primary/50"
+                placeholder="Código de invitación"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+              />
+              <input
+                className="w-full bg-white/50 border border-white/50 rounded-lg py-3 px-4 text-center text-primary font-semibold outline-none focus:ring-2 focus:ring-primary/20 placeholder-primary/50"
+                placeholder="Tu nombre"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <button
+                onClick={handleSave}
+                disabled={saveStatus === "loading" || !name.trim() || !code.trim()}
+                className="w-full py-3 btn-gradient text-white rounded-lg font-bold text-sm shadow-lg disabled:opacity-60"
+              >
+                {saveStatus === "loading" ? "Guardando..." : "Guardar puntaje"}
+              </button>
+              {saveMessage && (
+                <p className={`text-sm font-bold ${saveStatus === "success" ? "text-green-700" : "text-red-700"}`}>
+                  {saveMessage}
+                </p>
+              )}
+            </div>
+          )}
+
           <button
             onClick={handleRestart}
             className="btn-gradient text-white rounded-lg font-bold text-sm px-8 py-3 shadow-lg"
