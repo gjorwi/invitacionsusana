@@ -15,10 +15,10 @@ export default function Home() {
       <Sparkles />
       <main className="relative z-10 pt-8 pb-20 px-gutter max-w-md mx-auto flex flex-col gap-stack-lg">
         <Hero />
+        <RSVP />
         <Trivia />
         <Gallery />
         <MapSection />
-        <RSVP />
         <PhotoUpload />
         <Footer />
       </main>
